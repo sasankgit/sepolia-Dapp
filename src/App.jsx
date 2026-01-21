@@ -1,15 +1,33 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from "react";
+import WalletConnect from "./components/WalletConnect.jsx";
+import TransferForm from "./components/TransferForm.jsx";
+import Status from "./components/Status.jsx";
 
-function App() {
-  const [count, setCount] = useState(0)
+export default function App() {
+  const [account, setAccount] = useState(null);
+  const [status, setStatus] = useState("");
 
   return (
-    
-      
-  )
-}
+    <div className="min-h-screen bg-gray-900 text-white flex items-center justify-center">
+      <div className="bg-gray-800 p-6 rounded w-full max-w-md">
+        <h1 className="text-2xl font-bold mb-4 text-center">
+          Web3 Transaction DApp
+        </h1>
 
-export default App
+        {account && (
+          <p className="text-xs mb-2 text-center">
+            Connected: {account.slice(0, 6)}...{account.slice(-4)}
+          </p>
+        )}
+
+        <WalletConnect account={account} setAccount={setAccount} />
+
+        {account && (
+          <TransferForm account={account} setStatus={setStatus} />
+        )}
+
+        <Status status={status} />
+      </div>
+    </div>
+  );
+}
